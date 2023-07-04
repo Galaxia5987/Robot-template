@@ -2,6 +2,7 @@ package frc.robot.utils.motors;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import edu.wpi.first.math.MathUtil;
 import frc.robot.utils.Utils;
 
 public class PIDTalon extends TalonFX {
@@ -100,6 +101,6 @@ public class PIDTalon extends TalonFX {
     }
 
     public boolean updateConstant(double currVal, double lastVal) {
-        return Utils.deadband(currVal - lastVal, EPSILON) != 0;
+        return !Utils.epsilonEquals(currVal, lastVal, EPSILON);
     }
 }

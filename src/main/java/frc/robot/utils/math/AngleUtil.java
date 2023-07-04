@@ -9,7 +9,7 @@ coordinate systems.
 Each coordinate system is described as such:
 
     The vector representing the zero angle is called the ZeroVector,
-    which can be anywhere between 0 and 360.
+    which can be anywhere between 0 and 2 * pi.
 
     The direction of positive increase in the angle is called ThetaDirection,
     which can be either clockwise or counter-clockwise.
@@ -20,30 +20,30 @@ all conversions to an absolute angle will be to this system.
 public class AngleUtil {
     public static final CoordinateSystem RIGHT_COUNTER_CLOCKWISE = CoordinateSystem.of(0, false);
     public static final CoordinateSystem RIGHT_CLOCKWISE = CoordinateSystem.of(0, true);
-    public static final CoordinateSystem UP_COUNTER_CLOCKWISE = CoordinateSystem.of(90, false);
-    public static final CoordinateSystem UP_CLOCKWISE = CoordinateSystem.of(90, true);
-    public static final CoordinateSystem LEFT_COUNTER_CLOCKWISE = CoordinateSystem.of(180, false);
-    public static final CoordinateSystem LEFT_CLOCKWISE = CoordinateSystem.of(180, true);
-    public static final CoordinateSystem DOWN_COUNTER_CLOCKWISE = CoordinateSystem.of(270, false);
-    public static final CoordinateSystem DOWN_CLOCKWISE = CoordinateSystem.of(270, true);
+    public static final CoordinateSystem UP_COUNTER_CLOCKWISE = CoordinateSystem.of(Math.PI / 2, false);
+    public static final CoordinateSystem UP_CLOCKWISE = CoordinateSystem.of(Math.PI / 2, true);
+    public static final CoordinateSystem LEFT_COUNTER_CLOCKWISE = CoordinateSystem.of(Math.PI, false);
+    public static final CoordinateSystem LEFT_CLOCKWISE = CoordinateSystem.of(Math.PI, true);
+    public static final CoordinateSystem DOWN_COUNTER_CLOCKWISE = CoordinateSystem.of(3 * Math.PI / 2, false);
+    public static final CoordinateSystem DOWN_CLOCKWISE = CoordinateSystem.of(3 * Math.PI / 2, true);
 
     public static double normalize(double angle) {
         while (angle < 0) {
-            angle += 360;
+            angle += 2 * Math.PI;
         }
-        return angle % 360;
+        return angle % 2 * Math.PI;
     }
 
     public static double absoluteAngleToYaw(double angle) {
         angle = normalize(angle);
-        while (angle > 180) {
-            angle -= 360;
+        while (angle > Math.PI) {
+            angle -= 2 * Math.PI;
         }
         return angle;
     }
 
     public static Rotation2d absoluteAngleToYaw(Rotation2d angle) {
-        return Rotation2d.fromDegrees(absoluteAngleToYaw(angle.getDegrees()));
+        return Rotation2d.fromRadians(absoluteAngleToYaw(angle.getRadians()));
     }
 
     public static double getAbsoluteAngle(ZeroVector zeroVector, ThetaDirection thetaDirection, double angle) {
@@ -88,7 +88,7 @@ public class AngleUtil {
         }
 
         public Angle(CoordinateSystem coordinateSystem, Rotation2d value) {
-            this(coordinateSystem, value.getDegrees());
+            this(coordinateSystem, value.getRadians());
         }
 
         public Angle(double zeroVector, boolean clockwise, double value) {
@@ -147,9 +147,9 @@ public class AngleUtil {
 
     public static class ZeroVector {
         public static final double RIGHT = 0;
-        public static final double UP = 90;
-        public static final double LEFT = 180;
-        public static final double DOWN = 270;
+        public static final double UP = Math.PI / 2;
+        public static final double LEFT = Math.PI;
+        public static final double DOWN = 3 * Math.PI / 2;
 
         public final double zeroAbsoluteAngle;
 

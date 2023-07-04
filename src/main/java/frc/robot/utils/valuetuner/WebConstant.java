@@ -6,6 +6,7 @@ import frc.robot.Robot;
  * The interface is used to update constants through the network table.
  */
 public interface WebConstant {
+
     /**
      * Retrieve a new {@code WebConstant}.
      *
