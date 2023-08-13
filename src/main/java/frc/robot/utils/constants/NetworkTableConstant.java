@@ -1,4 +1,4 @@
-package frc.robot.utils.valuetuner;
+package frc.robot.utils.constants;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
