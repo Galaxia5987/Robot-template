@@ -4,6 +4,7 @@ import frc.robot.utils.math.Vector2;
 import org.ejml.simple.SimpleMatrix;
 
 public class Spline {
+
     private final SimpleMatrix basisMatrix;
     private final SimpleMatrix basisWeightMatrix;
 

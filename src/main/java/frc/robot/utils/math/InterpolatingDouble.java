@@ -7,6 +7,7 @@ package frc.robot.utils.math;
  */
 public class InterpolatingDouble implements Interpolable<InterpolatingDouble>, InverseInterpolable<InterpolatingDouble>,
         Comparable<InterpolatingDouble> {
+
     public double value;
 
     public InterpolatingDouble(double val) {

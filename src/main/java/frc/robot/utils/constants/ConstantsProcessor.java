@@ -24,6 +24,7 @@ import java.util.Set;
 @SupportedAnnotationTypes("org.example.constants.ProcessFile")
 @AutoService(javax.annotation.processing.Processor.class)
 public class ConstantsProcessor extends AbstractProcessor {
+
     private static final String PACKAGE = "org.example.constants";
 
     @Override

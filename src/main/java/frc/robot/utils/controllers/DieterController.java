@@ -4,6 +4,7 @@ import edu.wpi.first.math.controller.PIDController;
 import frc.robot.utils.Utils;
 
 public class DieterController extends PIDController {
+
     private double kDieter;
     private double dieterBand = 0;
 

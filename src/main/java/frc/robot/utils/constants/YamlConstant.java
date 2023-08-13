@@ -3,6 +3,7 @@ package frc.robot.utils.constants;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 public class YamlConstant {
+
     private String key;
     private Number value;
     private boolean tunable = false;

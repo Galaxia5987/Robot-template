@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class SplineHelper {
+
     private static final Object BINOMIAL_LOOKUP_TABLE_LOCK = new Object();
     private static final List<int[]> binomialLookupTable = new ArrayList<>();
 

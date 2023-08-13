@@ -5,6 +5,7 @@ import frc.robot.utils.math.Vector2;
 import org.ejml.simple.SimpleMatrix;
 
 class HermiteSplineHelper {
+
     /**
      * Creates the basis weight matrix for a cubic hermite spline.
      *

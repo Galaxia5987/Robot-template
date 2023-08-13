@@ -6,6 +6,7 @@ import org.ejml.simple.SimpleMatrix;
 import static frc.robot.utils.math.spline.SplineHelper.binomial;
 
 class BezierSplineHelper {
+
     private BezierSplineHelper() {
     }
 

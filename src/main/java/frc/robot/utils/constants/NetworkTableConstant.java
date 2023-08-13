@@ -12,6 +12,7 @@ import java.util.Set;
  * The class is used to update the value of the web constant through the networktables.
  */
 public class NetworkTableConstant implements WebConstant {
+
     private static final Set<NetworkTableConstant> constants = new HashSet<>();
     private static NetworkTable BASE_TABLE = null;
     private static boolean initializedConstants = false;

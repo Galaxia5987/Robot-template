@@ -1,6 +1,7 @@
 package frc.robot.utils.math.differential;
 
 public class BooleanTrigger {
+
     private boolean value;
     private boolean lastValue;
 

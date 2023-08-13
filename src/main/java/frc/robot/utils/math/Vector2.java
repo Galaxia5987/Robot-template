@@ -13,6 +13,7 @@ import java.util.Objects;
  * @since 0.1
  */
 public final class Vector2 implements Interpolable<Vector2>, Serializable {
+
     /**
      * A vector with a length of zero
      *

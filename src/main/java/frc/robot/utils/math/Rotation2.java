@@ -14,6 +14,7 @@ import java.util.Objects;
  * @since 0.2
  */
 public final class Rotation2 implements Interpolable<Rotation2>, Serializable {
+
     /**
      * A rotation which represents an angle of 0 degrees.
      */

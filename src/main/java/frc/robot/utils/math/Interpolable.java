@@ -8,6 +8,7 @@ package frc.robot.utils.math;
  * @see InterpolatingTreeMap
  */
 public interface Interpolable<T> {
+
     /**
      * Interpolates between this value and an other value according to a given parameter. If x is 0, the method should
      * return this value. If x is 1, the method should return the other value. If 0 < x < 1, the return value should be

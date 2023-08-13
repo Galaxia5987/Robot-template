@@ -2,10 +2,10 @@ package frc.robot.utils.motors;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import edu.wpi.first.math.MathUtil;
 import frc.robot.utils.Utils;
 
 public class PIDTalon extends TalonFX {
+
     public static final double EPSILON = 1e-9;
 
     private double lastKp;

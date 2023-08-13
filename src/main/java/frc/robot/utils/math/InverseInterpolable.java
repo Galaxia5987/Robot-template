@@ -9,6 +9,7 @@ package frc.robot.utils.math;
  * @see InterpolatingTreeMap
  */
 public interface InverseInterpolable<T> {
+
     /**
      * Given this point (lower), a query point (query), and an upper point (upper), estimate how far (on [0, 1]) between
      * 'lower' and 'upper' the query point lies.

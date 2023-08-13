@@ -4,6 +4,7 @@ import frc.robot.utils.math.Vector2;
 import org.ejml.simple.SimpleMatrix;
 
 public final class QuinticBezierSpline extends Spline {
+
     private static final SimpleMatrix BASIS_MATRIX = BezierSplineHelper.createBasisMatrix(5);
     private static final SimpleMatrix INVERSE_BASIS_MATRIX = BASIS_MATRIX.invert();
 

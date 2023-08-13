@@ -18,6 +18,7 @@ The absolute/default coordinate system is `RIGHT_COUNTER_CLOCKWISE`,
 all conversions to an absolute angle will be to this system.
  */
 public class AngleUtil {
+
     public static final CoordinateSystem RIGHT_COUNTER_CLOCKWISE = CoordinateSystem.of(0, false);
     public static final CoordinateSystem RIGHT_CLOCKWISE = CoordinateSystem.of(0, true);
     public static final CoordinateSystem UP_COUNTER_CLOCKWISE = CoordinateSystem.of(Math.PI / 2, false);

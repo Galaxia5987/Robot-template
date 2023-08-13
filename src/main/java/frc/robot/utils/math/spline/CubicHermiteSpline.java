@@ -5,6 +5,7 @@ import frc.robot.utils.math.Vector2;
 import org.ejml.simple.SimpleMatrix;
 
 public class CubicHermiteSpline extends Spline {
+
     private static final SimpleMatrix BASIS_MATRIX = new SimpleMatrix(new double[][]{
             new double[]{1, 0, 0, 0},
             new double[]{0, 0, 1, 0},
