@@ -2,6 +2,9 @@ package frc.robot.utils.controllers;
 
 import com.pathplanner.lib.auto.PIDConstants;
 
+/*
+This class contains the constants for the Dieter controller
+ */
 public class DieterConstants extends PIDConstants {
 
     public double kDieter;

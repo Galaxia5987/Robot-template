@@ -1,10 +1,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.example.ExampleSubsystem;
 
 public class RobotContainer {
 
     private static RobotContainer INSTANCE = null;
+
+    private final ExampleSubsystem exampleSubsystem = ExampleSubsystem.getINSTANCE();
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.

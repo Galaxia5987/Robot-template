@@ -4,15 +4,25 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.utils.webconstants.WebConstant;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,10 +32,13 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
  */
 public class Robot extends LoggedRobot {
 
-    public static boolean debug = false;
+    public static boolean debug = true;
+    public static boolean replay;
 
     private RobotContainer robotContainer;
     private Command autonomousCommand;
+
+    private final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -36,19 +49,21 @@ public class Robot extends LoggedRobot {
         robotContainer = RobotContainer.getInstance();
         autonomousCommand = robotContainer.getAutonomousCommand();
 
-        Logger.getInstance().recordMetadata("ProjectName", "Wcp-Swerve-2023"); // Set a metadata value
+        Logger.getInstance().recordMetadata("ProjectName", "Robot-template");
 
         if (isReal()) {
-            Logger.getInstance().addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
-            new PowerDistribution(1, PowerDistribution.ModuleType.kRev); // Enables power distribution logging
+            Logger.getInstance().addDataReceiver(new NT4Publisher());
+            Logger.getInstance().addDataReceiver(new WPILOGWriter("home/lvuser"));
+            new PowerDistribution(1, PowerDistribution.ModuleType.kRev);
         } else {
-            setUseTiming(false); // Run as fast as possible
-            String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
-            Logger.getInstance().setReplaySource(new WPILOGReader(logPath)); // Read replay log
-            Logger.getInstance().addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
+            if (replay) {
+                Logger.getInstance().setReplaySource(new WPILOGReader(LogFileUtil.findReplayLog()));
+            }
+            Logger.getInstance().addDataReceiver(new NT4Publisher());
         }
 
-        Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
+        Logger.getInstance().start();
+        SmartDashboard.setDefaultBoolean("debug", false);
     }
 
     /**
@@ -60,6 +75,7 @@ public class Robot extends LoggedRobot {
      */
     @Override
     public void robotPeriodic() {
+        WebConstant.updateAll();
         CommandScheduler.getInstance().run();
     }
 
