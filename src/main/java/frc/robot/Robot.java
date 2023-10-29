@@ -33,7 +33,7 @@ import java.util.Scanner;
 public class Robot extends LoggedRobot {
 
     public static boolean debug = true;
-    public static boolean replay;
+    public static boolean replay = false;
 
     private RobotContainer robotContainer;
     private Command autonomousCommand;
