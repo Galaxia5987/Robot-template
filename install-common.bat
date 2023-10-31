@@ -11,8 +11,18 @@ if not exist "%destination_directory%" (
 
 cd "%destination_directory%"
 
-if not exist "Common" (
+if not exist "common" (
     git clone %repository_url%
+)
+
+cd ..
+cd ..
+cd ..
+cd ..
+cd test\java\frc\robot
+
+if not exist "common" (
+    mkdir common
 )
 
 endlocal
