@@ -6,12 +6,14 @@ public interface ExampleSubsystemIO {
 
     /**
      * Set the position of the subsystem
+     *
      * @param position The position of the subsystem. [units]
      */
     void setPosition(double position);
 
     /**
      * Update the inputs of the subsystem
+     *
      * @param inputs The inputs of the subsystem
      */
     void updateInputs(ExampleSubsystemInputs inputs);

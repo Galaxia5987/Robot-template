@@ -28,11 +28,9 @@ public class Robot extends LoggedRobot {
 
     public static boolean debug = true;
     public static boolean replay = false;
-
+    private final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
     private RobotContainer robotContainer;
     private Command autonomousCommand;
-
-    private final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
     /**
      * This function is run when the robot is first started up and should be used for any

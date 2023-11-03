@@ -19,6 +19,7 @@ public class ExampleSubsystem extends SubsystemBase {
 
     /**
      * Constructor for ExampleSubsystem.
+     *
      * @param io IO of the subsystem.
      */
     private ExampleSubsystem(ExampleSubsystemIO io) {
@@ -27,6 +28,7 @@ public class ExampleSubsystem extends SubsystemBase {
 
     /**
      * Gets the single instance of ExampleSubsystem.
+     *
      * @return The single instance of ExampleSubsystem.
      */
     public static ExampleSubsystem getINSTANCE() {
@@ -42,6 +44,7 @@ public class ExampleSubsystem extends SubsystemBase {
 
     /**
      * Sets the position of the subsystem.
+     *
      * @param position The position of the subsystem. [units]
      */
     public void setPosition(double position) {
