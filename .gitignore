@@ -162,3 +162,5 @@ bin/
 *-window.json
 
 main/java/frc/robot/common/
+
+BuildConstants.java
