@@ -4,7 +4,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
-import frc.robot.common.utils.math.AngleUtil;
 
 public class ArmIOSim implements ArmIO {
 
@@ -12,14 +11,13 @@ public class ArmIOSim implements ArmIO {
     private double shoulderAngle = 0;
     private double elbowAppliedVoltage = 0;
     private double elbowAngle = 0;
-    private double elbowAngleShoulderRelative = 0;
 
     private final SingleJointedArmSim shoulderMotor = new SingleJointedArmSim(
             DCMotor.getFalcon500(2),
             ArmConstants.SHOULDER_GEARING,
             ArmConstants.SHOULDER_MOMENT_OF_INERTIA,
             ArmConstants.SHOULDER_LENGTH,
-            -2 * Math.PI, 2 * Math.PI, false
+            0, 2 * Math.PI, false
     );
     private final PIDController shoulderController = new PIDController(2, 0, 0, 0.02);
 
@@ -43,15 +41,7 @@ public class ArmIOSim implements ArmIO {
 
     @Override
     public void setElbowAngle(double angle) {
-        double elbowSetpointShoulderRelative = MathUtil.angleModulus(angle - shoulderAngle);
-        System.out.println("eSsr " + elbowSetpointShoulderRelative);
-        System.out.println("eAsr " + elbowAngleShoulderRelative);
-        double error = angle - elbowAngle;
-        System.out.println("Error: " + error);
-        if (Math.signum(elbowSetpointShoulderRelative * elbowAngleShoulderRelative) > 0) {
-            error = 2 * Math.PI + error;
-        }
-        elbowAppliedVoltage = elbowController.calculate(0, error);
+        elbowAppliedVoltage = elbowController.calculate(elbowAngle, angle);
         elbowMotor.setInputVoltage(elbowAppliedVoltage);
     }
 
@@ -72,16 +62,14 @@ public class ArmIOSim implements ArmIO {
         shoulderMotor.update(0.02);
         elbowMotor.update(0.02);
 
-        inputs.shoulderAngle = AngleUtil.normalize(shoulderMotor.getAngleRads());
+        inputs.shoulderAngle = shoulderMotor.getAngleRads();
         shoulderAngle = inputs.shoulderAngle;
         inputs.shoulderAppliedCurrent = shoulderMotor.getCurrentDrawAmps();
         inputs.shoulderAppliedVoltage = shoulderAppliedVoltage;
 
-        inputs.elbowAngle = AngleUtil.normalize(elbowMotor.getAngleRads());
+        inputs.elbowAngle = elbowMotor.getAngleRads();
         elbowAngle = inputs.elbowAngle;
         inputs.elbowAppliedCurrent = elbowMotor.getCurrentDrawAmps();
         inputs.elbowAppliedVoltage = elbowAppliedVoltage;
-
-        elbowAngleShoulderRelative = MathUtil.angleModulus(inputs.elbowAngle - inputs.shoulderAngle);
     }
 }
