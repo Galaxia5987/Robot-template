@@ -40,7 +40,7 @@ public class Arm extends SubsystemBase {
             if (Robot.isReal()) {
                 INSTANCE = new Arm(new ArmIOReal(inputs));
             } else {
-                INSTANCE = new Arm(new ArmIOSim());
+                INSTANCE = new Arm(new ArmIOSim(inputs));
             }
         }
         return INSTANCE;
@@ -78,7 +78,7 @@ public class Arm extends SubsystemBase {
 
     @Override
     public void periodic() {
-        io.updateInputs(inputs);
+        io.updateInputs();
         Logger.getInstance().processInputs("Arm", inputs);
 
         shoulder.setAngle(Math.toDegrees(inputs.shoulderAngle));

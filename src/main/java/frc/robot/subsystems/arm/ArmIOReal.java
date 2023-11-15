@@ -9,7 +9,7 @@ public class ArmIOReal implements ArmIO {
     }
 
     @Override
-    public void updateInputs(ArmInputs inputs) {
+    public void updateInputs() {
 
     }
 }

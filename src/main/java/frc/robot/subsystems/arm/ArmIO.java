@@ -12,7 +12,7 @@ public interface ArmIO {
 
     default void setElbowPower(double power) {}
 
-    default void updateInputs(ArmInputs inputs) {}
+    default void updateInputs() {}
 
     enum Mode {
         OPEN_LOOP(false),

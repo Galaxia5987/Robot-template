@@ -1,16 +1,10 @@
 package frc.robot.subsystems.arm;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 
 public class ArmIOSim implements ArmIO {
-
-    private double shoulderAppliedVoltage = 0;
-    private double shoulderAngle = 0;
-    private double elbowAppliedVoltage = 0;
-    private double elbowAngle = 0;
 
     private final SingleJointedArmSim shoulderMotor = new SingleJointedArmSim(
             DCMotor.getFalcon500(2),
@@ -30,46 +24,45 @@ public class ArmIOSim implements ArmIO {
     );
     private final PIDController elbowController = new PIDController(2, 0, 0, 0.02);
 
-    public ArmIOSim() {
+    private final ArmInputs inputs;
+
+    public ArmIOSim(ArmInputs inputs) {
+        this.inputs = inputs;
     }
 
     @Override
     public void setShoulderAngle(double angle) {
-        shoulderAppliedVoltage = shoulderController.calculate(shoulderAngle, angle);
-        shoulderMotor.setInputVoltage(shoulderAppliedVoltage);
+        inputs.shoulderAppliedVoltage = shoulderController.calculate(inputs.shoulderAngle, angle);
+        shoulderMotor.setInputVoltage(inputs.shoulderAppliedVoltage);
     }
 
     @Override
     public void setElbowAngle(double angle) {
-        elbowAppliedVoltage = elbowController.calculate(elbowAngle, angle);
-        elbowMotor.setInputVoltage(elbowAppliedVoltage);
+        inputs.elbowAppliedVoltage = elbowController.calculate(inputs.elbowAngle, angle);
+        elbowMotor.setInputVoltage(inputs.elbowAppliedVoltage);
     }
 
     @Override
     public void setShoulderPower(double power) {
-        shoulderAppliedVoltage = power * 12;
-        shoulderMotor.setInputVoltage(shoulderAppliedVoltage);
+        inputs.shoulderAppliedVoltage = power * 12;
+        shoulderMotor.setInputVoltage(inputs.shoulderAppliedVoltage);
     }
 
     @Override
     public void setElbowPower(double power) {
-        elbowAppliedVoltage = power * 12;
-        elbowMotor.setInputVoltage(elbowAppliedVoltage);
+        inputs.elbowAppliedVoltage = power * 12;
+        elbowMotor.setInputVoltage(inputs.elbowAppliedVoltage);
     }
 
     @Override
-    public void updateInputs(ArmInputs inputs) {
+    public void updateInputs() {
         shoulderMotor.update(0.02);
         elbowMotor.update(0.02);
 
         inputs.shoulderAngle = shoulderMotor.getAngleRads();
-        shoulderAngle = inputs.shoulderAngle;
         inputs.shoulderAppliedCurrent = shoulderMotor.getCurrentDrawAmps();
-        inputs.shoulderAppliedVoltage = shoulderAppliedVoltage;
 
         inputs.elbowAngle = elbowMotor.getAngleRads();
-        elbowAngle = inputs.elbowAngle;
         inputs.elbowAppliedCurrent = elbowMotor.getCurrentDrawAmps();
-        inputs.elbowAppliedVoltage = elbowAppliedVoltage;
     }
 }
