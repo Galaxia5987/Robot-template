@@ -8,7 +8,7 @@ public class ExampleSubsystemIOReal implements ExampleSubsystemIO {
     }
 
     @Override
-    public void updateInputs(ExampleSubsystemInputs inputs) {
+    public void updateInputs() {
 
     }
 }

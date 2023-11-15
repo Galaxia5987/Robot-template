@@ -4,6 +4,9 @@ import org.littletonrobotics.junction.AutoLog;
 
 public interface ExampleSubsystemIO {
 
+    // The inputs of the subsystem. This is to be used only in the subsystem classes.
+    ExampleSubsystemInputsAutoLogged inputs = new ExampleSubsystemInputsAutoLogged();
+
     /**
      * Set the position of the subsystem
      *
@@ -13,10 +16,8 @@ public interface ExampleSubsystemIO {
 
     /**
      * Update the inputs of the subsystem
-     *
-     * @param inputs The inputs of the subsystem
      */
-    void updateInputs(ExampleSubsystemInputs inputs);
+    void updateInputs();
 
     @AutoLog
     class ExampleSubsystemInputs {

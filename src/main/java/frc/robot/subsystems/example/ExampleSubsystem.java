@@ -12,7 +12,7 @@ public class ExampleSubsystem extends SubsystemBase {
     private static ExampleSubsystem INSTANCE = null;
 
     // Logger inputs of the subsystem
-    private final ExampleSubsystemInputsAutoLogged inputs = new ExampleSubsystemInputsAutoLogged();
+    private final ExampleSubsystemInputsAutoLogged inputs = ExampleSubsystemIO.inputs;
 
     // IO of the subsystem
     private final ExampleSubsystemIO io;
@@ -61,7 +61,7 @@ public class ExampleSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // Update inputs from IO
-        io.updateInputs(inputs);
+        io.updateInputs();
         // Log inputs
         Logger.getInstance().processInputs("ExampleSubsystem", inputs);
 
