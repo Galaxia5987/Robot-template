@@ -51,6 +51,12 @@ public class ExampleSubsystem extends SubsystemBase {
         inputs.input4 = position;
     }
 
+    /**
+     * Get simple command. This command includes only this subsystem.
+     *
+     * @param position The position of the subsystem.
+     * @return The simple command.
+     */
     public Command getSimpleCommand(double position) {
         return new RunCommand(() -> setPosition(position), this);
     }
@@ -65,7 +71,7 @@ public class ExampleSubsystem extends SubsystemBase {
         // Log inputs
         Logger.getInstance().processInputs("ExampleSubsystem", inputs);
 
-        // Put set point to IO
+        // Give set point to IO
         io.setPosition(inputs.input4);
     }
 }

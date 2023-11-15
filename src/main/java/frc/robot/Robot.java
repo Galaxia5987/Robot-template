@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import org.littletonrobotics.junction.LogFileUtil;
@@ -25,7 +24,6 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
  */
 public class Robot extends LoggedRobot {
 
-    public static boolean debug = true;
     public static boolean replay = false;
     private final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
     private RobotContainer robotContainer;
@@ -45,7 +43,10 @@ public class Robot extends LoggedRobot {
         if (isReal()) {
             Logger.getInstance().addDataReceiver(new NT4Publisher());
             Logger.getInstance().addDataReceiver(new WPILOGWriter("home/lvuser"));
-            new PowerDistribution(1, PowerDistribution.ModuleType.kRev);
+
+            try (PowerDistribution pwr = new PowerDistribution(1, PowerDistribution.ModuleType.kRev)) {
+                System.out.println("Power distribution working");
+            }
         } else {
             if (replay) {
                 Logger.getInstance().setReplaySource(new WPILOGReader(LogFileUtil.findReplayLog()));
@@ -54,7 +55,7 @@ public class Robot extends LoggedRobot {
         }
 
         Logger.getInstance().start();
-        SmartDashboard.setDefaultBoolean("debug", false);
+        compressor.enableDigital();
     }
 
     /**
@@ -81,9 +82,10 @@ public class Robot extends LoggedRobot {
      */
     @Override
     public void autonomousInit() {
+        // Make sure command is compiled beforehand, otherwise there will be a delay.
         autonomousCommand = robotContainer.getAutonomousCommand();
 
-        // schedule the autonomous command (example)
+        // Schedule the autonomous command
         if (autonomousCommand != null) {
             autonomousCommand.schedule();
         }
