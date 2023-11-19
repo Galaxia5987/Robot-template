@@ -36,7 +36,6 @@ public class Robot extends LoggedRobot {
     @Override
     public void robotInit() {
         robotContainer = RobotContainer.getInstance();
-        autonomousCommand = robotContainer.getAutonomousCommand();
 
         Logger.getInstance().recordMetadata("ProjectName", "Robot-template");
 
