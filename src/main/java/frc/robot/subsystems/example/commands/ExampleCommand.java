@@ -1,9 +1,9 @@
 package frc.robot.subsystems.example.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.example.ExampleSubsystem;
 
-public class ExampleCommand extends CommandBase {
+public class ExampleCommand extends Command {
 
     private final ExampleSubsystem exampleSubsystem = ExampleSubsystem.getINSTANCE();
 
