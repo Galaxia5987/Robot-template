@@ -4,9 +4,6 @@
 
 package frc.robot;
 
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -32,8 +29,6 @@ public class Robot extends LoggedRobot {
     private RobotContainer robotContainer;
     private Command autonomousCommand;
 
-    private final TalonFX motor = new TalonFX(1, "caniboy");
-
     /**
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
@@ -42,26 +37,24 @@ public class Robot extends LoggedRobot {
     public void robotInit() {
         robotContainer = RobotContainer.getInstance();
 
-        Logger.getInstance().recordMetadata("ProjectName", "Robot-template");
+        Logger.recordMetadata("ProjectName", "Robot-template");
 
         if (isReal()) {
-            Logger.getInstance().addDataReceiver(new NT4Publisher());
-            Logger.getInstance().addDataReceiver(new WPILOGWriter("home/lvuser"));
+            Logger.addDataReceiver(new NT4Publisher());
+            Logger.addDataReceiver(new WPILOGWriter("home/lvuser"));
 
             try (PowerDistribution pwr = new PowerDistribution(1, PowerDistribution.ModuleType.kRev)) {
                 System.out.println("Power distribution working");
             }
         } else {
             if (replay) {
-                Logger.getInstance().setReplaySource(new WPILOGReader(LogFileUtil.findReplayLog()));
+                Logger.setReplaySource(new WPILOGReader(LogFileUtil.findReplayLog()));
             }
-            Logger.getInstance().addDataReceiver(new NT4Publisher());
+            Logger.addDataReceiver(new NT4Publisher());
         }
 
-        Logger.getInstance().start();
+        Logger.start();
         compressor.enableDigital();
-
-        motor.getConfigurator().apply(new TalonFXConfiguration());
     }
 
     /**
@@ -74,8 +67,6 @@ public class Robot extends LoggedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
-
-        motor.setControl(new DutyCycleOut(1));
     }
 
     /**

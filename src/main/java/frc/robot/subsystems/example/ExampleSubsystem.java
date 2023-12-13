@@ -69,7 +69,7 @@ public class ExampleSubsystem extends SubsystemBase {
         // Update inputs from IO
         io.updateInputs();
         // Log inputs
-        Logger.getInstance().processInputs("ExampleSubsystem", inputs);
+        Logger.processInputs("ExampleSubsystem", inputs);
 
         // Give set point to IO
         io.setPosition(inputs.input4);
