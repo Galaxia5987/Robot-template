@@ -31,7 +31,7 @@ public class ExampleSubsystem extends SubsystemBase {
      *
      * @return The single instance of ExampleSubsystem.
      */
-    public static ExampleSubsystem getINSTANCE() {
+    public static ExampleSubsystem getInstance() {
         if (INSTANCE == null) {
             if (Robot.isReal()) {
                 INSTANCE = new ExampleSubsystem(new ExampleSubsystemIOReal());

@@ -5,7 +5,7 @@ import frc.robot.subsystems.example.ExampleSubsystem;
 
 public class ExampleCommand extends Command {
 
-    private final ExampleSubsystem exampleSubsystem = ExampleSubsystem.getINSTANCE();
+    private final ExampleSubsystem exampleSubsystem = ExampleSubsystem.getInstance();
 
     public ExampleCommand() {
     }
