@@ -8,6 +8,11 @@ public class ExampleSubsystemIOSim implements ExampleSubsystemIO {
     }
 
     @Override
+    public void setPower(double power) {
+
+    }
+
+    @Override
     public void updateInputs() {
 
     }
