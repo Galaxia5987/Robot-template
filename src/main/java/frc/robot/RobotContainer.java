@@ -7,8 +7,6 @@ public class RobotContainer {
 
     private static RobotContainer INSTANCE = null;
 
-    private final ExampleSubsystem exampleSubsystem = ExampleSubsystem.getInstance();
-
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
      */
