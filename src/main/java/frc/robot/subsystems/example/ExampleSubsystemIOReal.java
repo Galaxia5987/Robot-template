@@ -7,6 +7,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 
+import static frc.robot.subsystems.example.ExampleSubsystemConstants.*;
+
 public class ExampleSubsystemIOReal implements ExampleSubsystemIO {
 
     private final TalonFX motor = new TalonFX(ExampleSubsystemConstants.MOTOR_PORT);
@@ -15,9 +17,17 @@ public class ExampleSubsystemIOReal implements ExampleSubsystemIO {
     private final DutyCycleOut dutyCycleRequest = new DutyCycleOut(0);
 
     public ExampleSubsystemIOReal() {
-        while (motor.getConfigurator().apply(ExampleSubsystemConstants.CONFIG) != StatusCode.OK) {
+        while (motor.getConfigurator().apply(CONFIG) != StatusCode.OK) {
             System.out.println("Configuring motor " + motor.getDeviceID());
         }
+
+        CONFIG.Slot0.withKP(POSITION_P.get()).withKI(POSITION_I.get()).withKD(POSITION_D.get()).withKV(POSITION_V.get());
+        CONFIG.CurrentLimits.withStatorCurrentLimit(40)
+                .withSupplyCurrentLimit(40)
+                .withStatorCurrentLimitEnable(true)
+                .withSupplyCurrentLimitEnable(true)
+                .withSupplyTimeThreshold(0);
+        CONFIG.Feedback.withSensorToMechanismRatio(GEAR_RATIO);
     }
 
     @Override
