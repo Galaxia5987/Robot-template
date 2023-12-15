@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.inputs.LoggedPowerDistribution;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
@@ -43,9 +44,7 @@ public class Robot extends LoggedRobot {
             Logger.addDataReceiver(new NT4Publisher());
             Logger.addDataReceiver(new WPILOGWriter("home/lvuser"));
 
-            try (PowerDistribution pwr = new PowerDistribution(1, PowerDistribution.ModuleType.kRev)) {
-                System.out.println("Power distribution working");
-            }
+            LoggedPowerDistribution pwr = LoggedPowerDistribution.getInstance(1, PowerDistribution.ModuleType.kRev);
         } else {
             if (replay) {
                 Logger.setReplaySource(new WPILOGReader(LogFileUtil.findReplayLog()));
