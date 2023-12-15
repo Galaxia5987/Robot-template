@@ -42,6 +42,8 @@ public interface ExampleSubsystemIO {
             table.put("Angle", angle.getDegrees());
             table.put("TipPosition", Translation2d.struct, tipPosition);
             table.put("Velocity", velocity.getDegrees());
+            table.put("SetpointAngle", setpointAngle.getDegrees());
+            table.put("SetpointPower", setpointPower);
         }
 
         @Override
@@ -49,6 +51,8 @@ public interface ExampleSubsystemIO {
             angle = Rotation2d.fromDegrees(table.get("Angle", angle.getDegrees()));
             tipPosition = table.get("TipPosition", Translation2d.struct, tipPosition);
             velocity = Rotation2d.fromDegrees(table.get("Velocity", velocity.getDegrees()));
+            setpointAngle = Rotation2d.fromDegrees(table.get("SetpointAngle", setpointAngle.getDegrees()));
+            setpointPower = table.get("SetpointPower", setpointPower);
         }
     }
 }
