@@ -4,6 +4,8 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 
 public class ExampleSubsystemIOReal implements ExampleSubsystemIO {
 
@@ -19,8 +21,8 @@ public class ExampleSubsystemIOReal implements ExampleSubsystemIO {
     }
 
     @Override
-    public void setPosition(double position) {
-        positionRequest.withPosition(position).withEnableFOC(true);
+    public void setAngle(Rotation2d angle) {
+        positionRequest.withPosition(angle.getRotations()).withEnableFOC(true);
         motor.setControl(positionRequest);
     }
 
@@ -32,6 +34,9 @@ public class ExampleSubsystemIOReal implements ExampleSubsystemIO {
 
     @Override
     public void updateInputs() {
-
+        inputs.angle = Rotation2d.fromRotations(motor.getPosition().getValue());
+        inputs.tipPosition = new Translation2d(inputs.angle.getCos(), inputs.angle.getSin())
+                .times(ExampleSubsystemConstants.LENGTH);
+        inputs.velocity = Rotation2d.fromRotations(motor.getVelocity().getValue());
     }
 }

@@ -27,4 +27,6 @@ public class ExampleSubsystemConstants {
     }
 
     public static final int MOTOR_PORT = 1;
+
+    public static final double LENGTH = 0.5;
 }

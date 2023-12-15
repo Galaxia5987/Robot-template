@@ -1,5 +1,6 @@
 package frc.robot.subsystems.example;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -12,10 +13,12 @@ public class ExampleSubsystem extends SubsystemBase {
     private static ExampleSubsystem INSTANCE = null;
 
     // Logger inputs of the subsystem
-    private final ExampleSubsystemInputsAutoLogged inputs = ExampleSubsystemIO.inputs;
+    private final ExampleSubsystemIO.ExampleSubsystemInputs inputs = ExampleSubsystemIO.inputs;
 
     // IO of the subsystem
     private final ExampleSubsystemIO io;
+
+    private Mode mode = Mode.POSITION;
 
     /**
      * Constructor for ExampleSubsystem.
@@ -31,7 +34,7 @@ public class ExampleSubsystem extends SubsystemBase {
      *
      * @return The single instance of ExampleSubsystem.
      */
-    private static ExampleSubsystem getInstance() {
+    public static ExampleSubsystem getInstance() {
         if (INSTANCE == null) {
             if (Robot.isReal()) {
                 INSTANCE = new ExampleSubsystem(new ExampleSubsystemIOReal());
@@ -45,20 +48,26 @@ public class ExampleSubsystem extends SubsystemBase {
     /**
      * Sets the position of the subsystem.
      *
-     * @param position The position of the subsystem. [units]
+     * @param angle The angle of the subsystem to set.
      */
-    public void setPosition(double position) {
-        inputs.input4 = position;
+    public void setAngle(Rotation2d angle) {
+        inputs.setpointAngle = angle;
+        mode = Mode.POSITION;
+    }
+
+    public void setPower(double power) {
+        inputs.setpointPower = power;
+        mode = Mode.POWER;
     }
 
     /**
      * Get simple command. This command includes only this subsystem.
      *
-     * @param position The position of the subsystem.
+     * @param angle The angle of the subsystem to set.
      * @return The simple command.
      */
-    public Command getSimpleCommand(double position) {
-        return new RunCommand(() -> setPosition(position), this);
+    public Command getSimpleCommand(Rotation2d angle) {
+        return new RunCommand(() -> setAngle(angle), this);
     }
 
     /**
@@ -72,6 +81,15 @@ public class ExampleSubsystem extends SubsystemBase {
         Logger.processInputs("ExampleSubsystem", inputs);
 
         // Give set point to IO
-        io.setPosition(inputs.input4);
+        if (mode == Mode.POSITION) {
+            io.setAngle(inputs.setpointAngle);
+        } else {
+            io.setPower(inputs.setpointPower);
+        }
+    }
+
+    public enum Mode {
+        POSITION,
+        POWER
     }
 }
