@@ -50,6 +50,7 @@
 
 # Package Files #
 *.jar
+!common.jar
 *.war
 *.nar
 *.ear
@@ -160,7 +161,5 @@ bin/
 
 # Simulation GUI and other tools window save file
 *-window.json
-
-main/java/frc/robot/common/
 
 BuildConstants.java
