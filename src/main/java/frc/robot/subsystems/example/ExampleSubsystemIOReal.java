@@ -17,10 +17,6 @@ public class ExampleSubsystemIOReal implements ExampleSubsystemIO {
     private final DutyCycleOut dutyCycleRequest = new DutyCycleOut(0);
 
     public ExampleSubsystemIOReal() {
-        while (motor.getConfigurator().apply(CONFIG) != StatusCode.OK) {
-            System.out.println("Configuring motor " + motor.getDeviceID());
-        }
-
         CONFIG.Slot0.withKP(POSITION_P.get()).withKI(POSITION_I.get()).withKD(POSITION_D.get()).withKV(POSITION_V.get());
         CONFIG.CurrentLimits.withStatorCurrentLimit(40)
                 .withSupplyCurrentLimit(40)
@@ -28,6 +24,10 @@ public class ExampleSubsystemIOReal implements ExampleSubsystemIO {
                 .withSupplyCurrentLimitEnable(true)
                 .withSupplyTimeThreshold(0);
         CONFIG.Feedback.withSensorToMechanismRatio(GEAR_RATIO);
+
+        while (motor.getConfigurator().apply(CONFIG) != StatusCode.OK) {
+            System.out.println("Configuring motor " + motor.getDeviceID());
+        }
     }
 
     @Override
