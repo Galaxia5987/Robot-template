@@ -21,8 +21,7 @@ public class ExampleSubsystemIOReal implements ExampleSubsystemIO {
         CONFIG.CurrentLimits.withStatorCurrentLimit(40)
                 .withSupplyCurrentLimit(40)
                 .withStatorCurrentLimitEnable(true)
-                .withSupplyCurrentLimitEnable(true)
-                .withSupplyTimeThreshold(0);
+                .withSupplyCurrentLimitEnable(true);
         CONFIG.Feedback.withSensorToMechanismRatio(GEAR_RATIO);
 
         while (motor.getConfigurator().apply(CONFIG) != StatusCode.OK) {
