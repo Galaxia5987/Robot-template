@@ -9,9 +9,11 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.example.ExampleSubsystemConstants;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.inputs.LoggedDriverStation;
 import org.littletonrobotics.junction.inputs.LoggedPowerDistribution;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
@@ -25,7 +27,6 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
  */
 public class Robot extends LoggedRobot {
 
-    public static boolean replay = false;
     private final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
     private RobotContainer robotContainer;
     private Command autonomousCommand;
@@ -36,23 +37,45 @@ public class Robot extends LoggedRobot {
      */
     @Override
     public void robotInit() {
-        robotContainer = RobotContainer.getInstance();
+        // Initialize logger
+        Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
+        Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
+        Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
+        Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
+        Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
+        switch (BuildConstants.DIRTY) {
+            case 0:
+                Logger.recordMetadata("GitDirty", "All changes committed");
+                break;
+            case 1:
+                Logger.recordMetadata("GitDirty", "Uncomitted changes");
+                break;
+            default:
+                Logger.recordMetadata("GitDirty", "Unknown");
+                break;
+        }
 
-        Logger.recordMetadata("ProjectName", "Robot-template");
-
-        if (isReal()) {
-            Logger.addDataReceiver(new NT4Publisher());
-            Logger.addDataReceiver(new WPILOGWriter("home/lvuser"));
-
-            LoggedPowerDistribution pwr = LoggedPowerDistribution.getInstance(1, PowerDistribution.ModuleType.kRev);
-        } else {
-            if (replay) {
-                Logger.setReplaySource(new WPILOGReader(LogFileUtil.findReplayLog()));
-            }
-            Logger.addDataReceiver(new NT4Publisher());
+        switch (Constants.CURRENT_MODE) {
+            case REAL:
+                LoggedPowerDistribution.getInstance(0, PowerDistribution.ModuleType.kRev);
+                Logger.addDataReceiver(new WPILOGWriter("/home/lvuser"));
+                Logger.addDataReceiver(new NT4Publisher());
+                break;
+            case SIM:
+                Logger.addDataReceiver(new NT4Publisher());
+                break;
+            case REPLAY:
+                setUseTiming(false);
+                String logPath = LogFileUtil.findReplayLog();
+                Logger.setReplaySource(new WPILOGReader(logPath));
+                Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
+                break;
         }
 
         Logger.start();
+
+        ExampleSubsystemConstants.initConstants();
+        robotContainer = RobotContainer.getInstance();
         compressor.enableDigital();
     }
 
