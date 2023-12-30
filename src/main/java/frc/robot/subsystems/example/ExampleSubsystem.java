@@ -4,10 +4,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
 import org.littletonrobotics.junction.Logger;
-
-import static frc.robot.subsystems.example.ExampleSubsystemConstants.*;
 
 public class ExampleSubsystem extends SubsystemBase {
 
@@ -15,7 +12,7 @@ public class ExampleSubsystem extends SubsystemBase {
     private static ExampleSubsystem INSTANCE = null;
 
     // Logger inputs of the subsystem
-    private final ExampleSubsystemIO.ExampleSubsystemInputs inputs = ExampleSubsystemIO.inputs;
+    private final ExampleSubsystemInputsAutoLogged inputs = ExampleSubsystemIO.inputs;
 
     // IO of the subsystem
     private final ExampleSubsystemIO io;
@@ -37,24 +34,11 @@ public class ExampleSubsystem extends SubsystemBase {
      * @return The single instance of ExampleSubsystem.
      */
     public static ExampleSubsystem getInstance() {
-        if (INSTANCE == null) {
-            if (Robot.isReal()) {
-                POSITION_P.initDefault(0.1);
-                POSITION_I.initDefault(0.0);
-                POSITION_D.initDefault(0.0);
-                POSITION_V.initDefault(0.0);
-
-                INSTANCE = new ExampleSubsystem(new ExampleSubsystemIOReal());
-            } else {
-                POSITION_P.initDefault(0.1);
-                POSITION_I.initDefault(0.0);
-                POSITION_D.initDefault(0.0);
-                POSITION_V.initDefault(0.0);
-
-                INSTANCE = new ExampleSubsystem(new ExampleSubsystemIOSim());
-            }
-        }
         return INSTANCE;
+    }
+
+    public static void initialize(ExampleSubsystemIO io) {
+        INSTANCE = new ExampleSubsystem(io);
     }
 
     /**
