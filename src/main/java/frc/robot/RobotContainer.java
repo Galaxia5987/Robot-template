@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.example.*;
 
 public class RobotContainer {
 
@@ -10,6 +11,19 @@ public class RobotContainer {
      * The container for the robot.  Contains subsystems, OI devices, and commands.
      */
     private RobotContainer() {
+        ExampleSubsystemIO exampleSubsystemIO;
+        switch (Constants.CURRENT_MODE) {
+            case REAL:
+                exampleSubsystemIO = new ExampleSubsystemIOReal();
+                break;
+            case SIM:
+            case REPLAY:
+            default:
+                exampleSubsystemIO = new ExampleSubsystemIOSim();
+                break;
+        }
+        ExampleSubsystem.initialize(exampleSubsystemIO);
+
         // Configure the button bindings and default commands
         configureDefaultCommands();
         configureButtonBindings();
