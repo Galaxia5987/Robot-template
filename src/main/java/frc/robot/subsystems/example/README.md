@@ -72,6 +72,6 @@ stateDiagram-v2
 
 A profile generator will run on the coprocessor, and will feed data through the following NetworkTables topics:
 - Inputs:
-  - `\Robot\Subsystems\conveyor\generator\ballsAmount` -- amount of balls the conveyor currently holds. 
+  - `/Robot/Subsystems/conveyor/generator/ballsAmount` -- amount of balls the conveyor currently holds. 
 - Outputs:
-  - `\Robot\Subsystems\conveyor\generator\speed` -- speed the conveyor should run in.
+  - `/Robot/Subsystems/conveyor/generator/speed` -- speed the conveyor should run in.
