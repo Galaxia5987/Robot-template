@@ -5,6 +5,5 @@ import org.junit.Test;
 public class ExampleSubsystemTest {
 
     @Test
-    public void setPower() {
-    }
+    public void setPower() {}
 }
