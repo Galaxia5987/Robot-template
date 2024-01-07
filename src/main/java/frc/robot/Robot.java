@@ -14,7 +14,6 @@ import frc.robot.subsystems.example.ExampleSubsystemConstants;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.inputs.LoggedDriverStation;
 import org.littletonrobotics.junction.inputs.LoggedPowerDistribution;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
@@ -69,7 +68,8 @@ public class Robot extends LoggedRobot {
                 setUseTiming(false);
                 String logPath = LogFileUtil.findReplayLog();
                 Logger.setReplaySource(new WPILOGReader(logPath));
-                Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
+                Logger.addDataReceiver(
+                        new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
                 break;
         }
 
@@ -114,17 +114,11 @@ public class Robot extends LoggedRobot {
         }
     }
 
-    /**
-     * This function is called periodically during autonomous.
-     */
+    /** This function is called periodically during autonomous. */
     @Override
-    public void autonomousPeriodic() {
+    public void autonomousPeriodic() {}
 
-    }
-
-    /**
-     * This function is called once when teleop is enabled.
-     */
+    /** This function is called once when teleop is enabled. */
     @Override
     public void teleopInit() {
         if (autonomousCommand != null) {
@@ -132,39 +126,25 @@ public class Robot extends LoggedRobot {
         }
     }
 
-    /**
-     * This function is called periodically during operator control.
-     */
+    /** This function is called periodically during operator control. */
     @Override
-    public void teleopPeriodic() {
-    }
+    public void teleopPeriodic() {}
 
-    /**
-     * This function is called once when the robot is disabled.
-     */
+    /** This function is called once when the robot is disabled. */
     @Override
-    public void disabledInit() {
-    }
+    public void disabledInit() {}
 
-    /**
-     * This function is called periodically when disabled.
-     */
+    /** This function is called periodically when disabled. */
     @Override
-    public void disabledPeriodic() {
-    }
+    public void disabledPeriodic() {}
 
-    /**
-     * This function is called once when test mode is enabled.
-     */
+    /** This function is called once when test mode is enabled. */
     @Override
     public void testInit() {
         CommandScheduler.getInstance().cancelAll();
     }
 
-    /**
-     * This function is called periodically during test mode.
-     */
+    /** This function is called periodically during test mode. */
     @Override
-    public void testPeriodic() {
-    }
+    public void testPeriodic() {}
 }

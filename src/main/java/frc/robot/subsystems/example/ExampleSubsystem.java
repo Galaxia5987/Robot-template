@@ -66,9 +66,7 @@ public class ExampleSubsystem extends SubsystemBase {
         return new RunCommand(() -> setAngle(angle), this);
     }
 
-    /**
-     * Updates the state of the subsystem.
-     */
+    /** Updates the state of the subsystem. */
     @Override
     public void periodic() {
         // Update inputs from IO

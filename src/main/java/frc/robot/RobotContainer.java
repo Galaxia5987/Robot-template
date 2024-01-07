@@ -7,9 +7,7 @@ public class RobotContainer {
 
     private static RobotContainer INSTANCE = null;
 
-    /**
-     * The container for the robot.  Contains subsystems, OI devices, and commands.
-     */
+    /** The container for the robot. Contains subsystems, OI devices, and commands. */
     private RobotContainer() {
         ExampleSubsystemIO exampleSubsystemIO;
         switch (Constants.CURRENT_MODE) {
@@ -36,12 +34,9 @@ public class RobotContainer {
         return INSTANCE;
     }
 
-    private void configureDefaultCommands() {
-    }
+    private void configureDefaultCommands() {}
 
-    private void configureButtonBindings() {
-    }
-
+    private void configureButtonBindings() {}
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

@@ -8,10 +8,14 @@ public class ExampleSubsystemConstants {
 
     public static final double CURRENT_LIMIT = 40; // [amp]
 
-    public static final LoggedTunableNumber POSITION_P = new LoggedTunableNumber("Example/PositionP");
-    public static final LoggedTunableNumber POSITION_I = new LoggedTunableNumber("Example/PositionI");
-    public static final LoggedTunableNumber POSITION_D = new LoggedTunableNumber("Example/PositionD");
-    public static final LoggedTunableNumber POSITION_V = new LoggedTunableNumber("Example/PositionV");
+    public static final LoggedTunableNumber POSITION_P =
+            new LoggedTunableNumber("Example/PositionP");
+    public static final LoggedTunableNumber POSITION_I =
+            new LoggedTunableNumber("Example/PositionI");
+    public static final LoggedTunableNumber POSITION_D =
+            new LoggedTunableNumber("Example/PositionD");
+    public static final LoggedTunableNumber POSITION_V =
+            new LoggedTunableNumber("Example/PositionV");
 
     public static void initConstants() {
         switch (Constants.CURRENT_MODE) {

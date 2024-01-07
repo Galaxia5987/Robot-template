@@ -23,9 +23,7 @@ public interface ExampleSubsystemIO {
      */
     void setPower(double power);
 
-    /**
-     * Update the inputs of the subsystem
-     */
+    /** Update the inputs of the subsystem */
     void updateInputs();
 
     @AutoLog

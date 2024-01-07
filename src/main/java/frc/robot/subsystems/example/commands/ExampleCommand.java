@@ -7,8 +7,7 @@ public class ExampleCommand extends Command {
 
     private final ExampleSubsystem exampleSubsystem = ExampleSubsystem.getInstance();
 
-    public ExampleCommand() {
-    }
+    public ExampleCommand() {}
 
     @Override
     public void initialize() {
