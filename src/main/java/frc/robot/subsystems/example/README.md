@@ -16,6 +16,7 @@ Motors:
 - 1 BAG motor powered by a Talon SRX at the lower part of the conveyor. Name: (`Lower conveyor`)
 - 2 Kraken X60s powered by Talon FXs in the middle part. Name: (`Middle conveyor master`, `Middle conveyor slave`)
 - 1 NEO 550 powered by a SPARK MAX that controls the balls gate. Name: (`Balls gate`)
+
 Sensors:
 - 1 [REV Magnetic Limit Switch]([url](https://www.revrobotics.com/rev-31-1462/)https://www.revrobotics.com/rev-31-1462/) for zeroing the gate's position
 - 2 DigiKey 123456 proximity sensors -- one at the bottom and another in the middle
