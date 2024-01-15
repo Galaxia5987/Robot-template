@@ -4,13 +4,17 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.SignalLogger;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.LoggedSubsystem;
+import frc.robot.subsystems.example.ExampleSubsystemConstants;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.inputs.LoggedPowerDistribution;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
@@ -22,8 +26,8 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
  * project.
  */
 public class Robot extends LoggedRobot {
-    public static boolean debug = false;
 
+    private final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
     private RobotContainer robotContainer;
     private Command autonomousCommand;
 
@@ -33,23 +37,48 @@ public class Robot extends LoggedRobot {
      */
     @Override
     public void robotInit() {
-        robotContainer = RobotContainer.getInstance();
-        autonomousCommand = robotContainer.getAutonomousCommand();
-
-        Logger.getInstance().recordMetadata("ProjectName", "Wcp-Swerve-2023"); // Set a metadata value
-
-        if (isReal()) {
-            Logger.getInstance().addDataReceiver(new WPILOGWriter("/media/sda1/")); // Log to a USB stick
-            Logger.getInstance().addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
-            new PowerDistribution(1, PowerDistribution.ModuleType.kRev); // Enables power distribution logging
-        } else {
-            setUseTiming(false); // Run as fast as possible
-            String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
-            Logger.getInstance().setReplaySource(new WPILOGReader(logPath)); // Read replay log
-            Logger.getInstance().addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
+        // Initialize logger
+        Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
+        Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
+        Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
+        Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
+        Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
+        switch (BuildConstants.DIRTY) {
+            case 0:
+                Logger.recordMetadata("GitDirty", "All changes committed");
+                break;
+            case 1:
+                Logger.recordMetadata("GitDirty", "Uncomitted changes");
+                break;
+            default:
+                Logger.recordMetadata("GitDirty", "Unknown");
+                break;
         }
 
-        Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
+        switch (Constants.CURRENT_MODE) {
+            case REAL:
+                LoggedPowerDistribution.getInstance(0, PowerDistribution.ModuleType.kRev);
+                Logger.addDataReceiver(new WPILOGWriter());
+                Logger.addDataReceiver(new NT4Publisher());
+                break;
+            case SIM:
+                Logger.addDataReceiver(new NT4Publisher());
+                break;
+            case REPLAY:
+                setUseTiming(false);
+                String logPath = LogFileUtil.findReplayLog();
+                Logger.setReplaySource(new WPILOGReader(logPath));
+                Logger.addDataReceiver(
+                        new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
+                break;
+        }
+
+        Logger.start();
+        SignalLogger.enableAutoLogging(true);
+
+        ExampleSubsystemConstants.initConstants();
+        robotContainer = RobotContainer.getInstance();
+        compressor.enableDigital();
     }
 
     /**
@@ -61,7 +90,6 @@ public class Robot extends LoggedRobot {
      */
     @Override
     public void robotPeriodic() {
-        LoggedSubsystem.getSubsystems().forEach(LoggedSubsystem::updateSubsystem);
         CommandScheduler.getInstance().run();
     }
 
@@ -77,25 +105,20 @@ public class Robot extends LoggedRobot {
      */
     @Override
     public void autonomousInit() {
+        // Make sure command is compiled beforehand, otherwise there will be a delay.
         autonomousCommand = robotContainer.getAutonomousCommand();
 
-        // schedule the autonomous command (example)
+        // Schedule the autonomous command
         if (autonomousCommand != null) {
             autonomousCommand.schedule();
         }
     }
 
-    /**
-     * This function is called periodically during autonomous.
-     */
+    /** This function is called periodically during autonomous. */
     @Override
-    public void autonomousPeriodic() {
+    public void autonomousPeriodic() {}
 
-    }
-
-    /**
-     * This function is called once when teleop is enabled.
-     */
+    /** This function is called once when teleop is enabled. */
     @Override
     public void teleopInit() {
         if (autonomousCommand != null) {
@@ -103,39 +126,25 @@ public class Robot extends LoggedRobot {
         }
     }
 
-    /**
-     * This function is called periodically during operator control.
-     */
+    /** This function is called periodically during operator control. */
     @Override
-    public void teleopPeriodic() {
-    }
+    public void teleopPeriodic() {}
 
-    /**
-     * This function is called once when the robot is disabled.
-     */
+    /** This function is called once when the robot is disabled. */
     @Override
-    public void disabledInit() {
-    }
+    public void disabledInit() {}
 
-    /**
-     * This function is called periodically when disabled.
-     */
+    /** This function is called periodically when disabled. */
     @Override
-    public void disabledPeriodic() {
-    }
+    public void disabledPeriodic() {}
 
-    /**
-     * This function is called once when test mode is enabled.
-     */
+    /** This function is called once when test mode is enabled. */
     @Override
     public void testInit() {
         CommandScheduler.getInstance().cancelAll();
     }
 
-    /**
-     * This function is called periodically during test mode.
-     */
+    /** This function is called periodically during test mode. */
     @Override
-    public void testPeriodic() {
-    }
+    public void testPeriodic() {}
 }
